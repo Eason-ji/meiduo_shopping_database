@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 1.导入js -->
+</head>
+<body>
+    <!-- 2.定义一个div标签，以后的vue的关联html写在这里 -->
+    <div id="app">
+        <hr>
+        <h1 v-for="item in num">{{item}}</h1>
+
+    </div>
+</body>
+    <!-- 3.创建一个vue应用 -->
+    <script type="text/javascript">
+    var vm= new Vue({
+        el:"#app",
+        data:{
+            msg:"hello world",
+            num:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+        }
+    })
+
+    </script>
+</html>

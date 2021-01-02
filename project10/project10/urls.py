@@ -1,4 +1,4 @@
-"""meiduo_shopping URL Configuration
+"""project10 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -17,30 +17,25 @@ from django.contrib import admin
 from django.urls import path,include
 from django.http import HttpResponse
 def test(request):
-
     import logging
-    # 2.根据配置信息，创建日志
-    logger=logging.getLogger('django-----------------')  # getLogger配置文件中的日志器
-    # 3. 记录日志
-    # 3.1 如果有错误
-    logger.warning('warning-------------')
-    # 3.2 如果有错误
-    logger.error('撒旦法')
-    # 3.3 如果记录信息
-    logger.info('123--------')
+    logger = logging.getLogger('django')
 
-    return HttpResponse('aaaa')
+    logger.warning("-------warning--------")
+    print('warning')
+    logger.error("-----error-----")
+    print('error')
+    logger.info("this is info")
+    print('info')
+    return HttpResponse('test login')
+
 
 # 注册转换器
-from utils.converters import UserNameConverter
 from django.urls import register_converter
-# 参数1：转换器类型
-# 参数2：转换器别名
-register_converter(UserNameConverter,"uc")
+from utils.converters import UernameConverter
+register_converter(UernameConverter,"uc")
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('test/',test),
-    path('',include("apps.users.urls"))
+    path('', include("apps.users.urls"))
 ]
-

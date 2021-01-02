@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <body>
+        <div id="app">
+            {{msg}}
+            <hr>
+            <input type="text" name="" v-model="todo">
+            <button v-on:click='add'>添加</button>
+            <ul >
+                <li v-for="item in todos">{{item}}</li>
+            </ul>
+        </div>
+        </body>
+        <script type="text/javascript">
+            var vm=new Vue({
+                el:"#app",
+                data:{
+                    msg:'hello',
+                    todos:['学习Django','学习','学习vue','学习项目'],
+                    todo:''
+                },
+                methods:{
+                    add:function(){
+                        // 将todo添加到todos中
+                        this.todos.push(this.todo)
+                        // 当todo添加到列表后，输入框为空
+                        this.todo=''
+                    }
+                }
+            })
+        </script>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{user}}
+
+        <table border="2">
+            <tr>
+                <td>用户名</td>
+                <td><input type="text" name="username" id="usernam" v-mode="user"></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input type="password" name="password" v-mode="pwd"></td>
+            </tr>
+            <tr>
+                <td>城市</td>
+                <td>
+                    <select v-model="city">
+                       <option value="上海">上海</option>
+                        <option value="北京">北京</option>
+                        <option value="成都">成都</option>
+                    </select> 
+                </td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    男<input type="radio" name="sex" value="男" v-mode="sex">
+                    女<input type="radio" name="sex" value="女" v-mode="sex">
+                </td>
+            </tr>
+            <tr>
+                <td>描述</td>
+                <td><textarea v-model="desc"></textarea></td>
+            </tr>
+            <tr>
+                <button v-on:click="register">注册</button>
+            </tr>
+        </table>
+
+    </div>
+</body>
+<script type="text/javascript">
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            user:'wang',
+            pwd:'',
+            city:'',
+            sex:'',
+            desc:'',
+        },
+
+        methods:{
+            register:function(){
+                alert('姓名：'+this.user+'  密码：'+this.pwd+'  性别：'+this.sex+'  城市：'+this.city+'  描述：'+this.desc)
+            }
+        }
+    })
+</script>
+</html>
