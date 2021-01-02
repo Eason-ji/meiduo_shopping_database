@@ -1,3 +1,5 @@
+import re
+
 from django.shortcuts import render
 from django.views import View
 from apps.users.models import User
@@ -61,13 +63,17 @@ class Register_View(View):
             return JsonResponse({"code":400,"errmsg":"参数不全"})
 
         # 3.2 验证用户名
-
+        if not re.match(r'^[a-zA-Z0-9_]{5,20}$', username):
+            return JsonResponse({"code":400,"errmsg":"无效名字"})
         # 3.3 验证密码是否符合规则
-
+        if not re.match(r'^[0-9A-Za-z]{8,20}$', password):
+            return JsonResponse({"code":400,"errmsg":"密码无效"})
         # 3.4 验证密码和确认密码是否一致
-
+        if password2 != password:
+            return JsonResponse({"code":400,"errmsg":"密码不一致"})
         # 3.5 验证手机号码是否符合
-
+        if not re.match(r'^1[3-9]\d{9}$', mobile):
+            return JsonResponse({"code":400,"errmsg":"电话号码错误"})
         """
         ----------4.保存数据到MySQL---------
 

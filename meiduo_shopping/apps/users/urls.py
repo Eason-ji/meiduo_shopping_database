@@ -3,7 +3,7 @@ from apps.users import views
 
 urlpatterns = [
     path('username/uc:<username>/count/',views.UsernameCountView.as_view()),
-    path("register/",views.Register_View),
+    path("register/",views.Register_View.as_view()),
 
 
 
