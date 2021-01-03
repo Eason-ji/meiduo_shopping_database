@@ -2,14 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181d4538-66de-4bcd-8667-79f2051d0d04" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/users/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/utils/converters.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/converters.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/verifications/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/verifications/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/celery_tasks/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/celery_tasks/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/celery_tasks/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/celery_tasks/sms/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/celery_tasks/sms/tasks.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../project11/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../project11/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../project11/.idea/project11.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../project11/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../project11/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../project11/apps/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../project11/libs/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../project11/utils/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../meiduo_shopping/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/apps/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/apps/users/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/users/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/apps/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/users/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../meiduo_shopping/meiduo_shopping/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/meiduo_shopping/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../meiduo_shopping/meiduo_shopping/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/meiduo_shopping/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/utils/converters.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/utils/converters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,8 +39,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project10/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
+            <state relative-caret-position="990">
+              <caret line="55" column="31" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -34,7 +48,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.virtualenvs/adjango2/lib/python3.6/site-packages/django/views/generic/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-560">
+            <state relative-caret-position="342">
               <caret line="29" column="6" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
             </state>
           </provider>
@@ -43,8 +57,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project10/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="34" column="41" lean-forward="true" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
+            <state relative-caret-position="576">
+              <caret line="34" column="41" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
               <folding>
                 <element signature="e#633#665#0" expanded="true" />
               </folding>
@@ -55,7 +69,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/users/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
+            <state relative-caret-position="162">
               <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
@@ -67,8 +81,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/users/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
+            <state relative-caret-position="337">
+              <caret line="64" column="27" lean-forward="true" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -80,7 +94,7 @@
         <entry file="file://$PROJECT_DIR$/apps/users/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="10" column="1" lean-forward="true" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+              <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -126,16 +140,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="27" />
-    <option name="width" value="1043" />
+    <option name="width" value="1033" />
     <option name="height" value="883" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -183,6 +190,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -245,16 +253,18 @@
       <updated>1609421876126</updated>
       <workItem from="1609421877625" duration="2384000" />
       <workItem from="1609589175176" duration="5953000" />
+      <workItem from="1609638646107" duration="1216000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8337000" />
+    <option name="totallyTimeSpent" value="9553000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1043" height="883" extended-state="0" />
+    <frame x="0" y="27" width="1033" height="883" extended-state="1" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19175455" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17715392" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -268,7 +278,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.60915035" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.17777778" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.57253885" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -285,12 +295,12 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/logs/meiduo.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider" />
       <provider editor-type-id="text-editor">
         <state relative-caret-position="342">
           <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
     </entry>
     <entry file="file://$PROJECT_DIR$/project10/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
@@ -317,10 +327,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/project10/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="55" column="31" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/.virtualenvs/adjango2/lib/python3.6/site-packages/django/views/generic/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-560">
+        <state relative-caret-position="342">
           <caret line="29" column="6" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project10/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="34" column="41" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
+          <folding>
+            <element signature="e#633#665#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/users/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -331,37 +368,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project10/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="34" column="41" lean-forward="true" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
-          <folding>
-            <element signature="e#633#665#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/users/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project10/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/users/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="10" column="1" lean-forward="true" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+          <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -370,8 +380,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/users/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
+        <state relative-caret-position="337">
+          <caret line="64" column="27" lean-forward="true" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

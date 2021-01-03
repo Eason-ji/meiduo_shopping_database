@@ -7,3 +7,10 @@ class UserNameConverter:
     def to_python(self,value):
         # value 验证成功后的数据
         return value
+
+
+class UUIDConverter:
+    regex = "[\w]+"
+
+    def to_python(self,value):
+        return value

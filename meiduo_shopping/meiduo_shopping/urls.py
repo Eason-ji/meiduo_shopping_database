@@ -32,15 +32,17 @@ def test(request):
     return HttpResponse('aaaa')
 
 # 注册转换器
-from utils.converters import UserNameConverter
+from utils.converters import UserNameConverter,UUIDConverter
 from django.urls import register_converter
 # 参数1：转换器类型
 # 参数2：转换器别名
 register_converter(UserNameConverter,"uc")
+register_converter(UUIDConverter,"uu")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test/',test),
-    path('',include("apps.users.urls"))
+    path('',include("apps.users.urls")),
+    path('',include("apps.verifications.urls")),
 ]
 
