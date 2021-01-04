@@ -2,18 +2,16 @@ import re
 
 from django.shortcuts import render
 from django.http import HttpResponse
-
-def index(request):
-    data={
-        "data":"this is test"
-    }
-    return render(request,'test.html',context=data)
-
 from django.views import View
 from apps.users.models import User
 from django.http.response import JsonResponse
 
+
+
+
+######################判断名字#########################
 class UsernameCountview(View):
+    # usernames/<username>/count/
     def get(self,request,username):
 
         # 根据username进行数量的查询
@@ -21,6 +19,17 @@ class UsernameCountview(View):
 
         return JsonResponse({"code":0,"errmsg":"ok","count":count})
 
+######################判断电话号码#########################
+class UserMobile(View):
+    # mobiles / < mobile > / count /
+    def get(self, request, mobile):
+
+        # 根据mobiles进行数量查询
+        count = User.objects.filter(mobile=mobile).count()
+
+        return JsonResponse({"code":0,"errmsg":"ok","count":count})
+
+######################实现注册功能#########################
 class RegisterView(View):
 
     def post(self,request):

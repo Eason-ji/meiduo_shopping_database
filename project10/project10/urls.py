@@ -31,11 +31,15 @@ def test(request):
 
 # 注册转换器
 from django.urls import register_converter
-from utils.converters import UernameConverter
+from utils.converters import UernameConverter,UuidCode,Mobile
 register_converter(UernameConverter,"uc")
+register_converter(UuidCode,"ud")
+register_converter(Mobile,"mb")
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("apps.users.urls"))
+    path('', include("apps.users.urls")),
+    path("", include("apps.verifications.urls"))
 ]
