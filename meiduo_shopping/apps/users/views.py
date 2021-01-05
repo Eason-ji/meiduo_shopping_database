@@ -1,5 +1,6 @@
 import re
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import View
 from apps.users.models import User
@@ -12,6 +13,9 @@ from django.http import JsonResponse
 #         # 2.讲查询数据返回
 #         return JsonResponse({"code":0,"errmsg":"ok","count":count})
 # # Create your views here.
+from utils.views import LoginRequiredJSONMixin
+
+
 class UsernameCountView(View):
     """判断用户名是否重复注册"""
 
@@ -85,7 +89,10 @@ class Register_View(View):
                                         mobile=mobile
                                         )
 
-        # 5.状态保持session redis
+        """
+         ----------5.状态保持session redis---------
+
+        """
         # django自带后台 -- 后台也是采用session技术
         # django 实现了session状态保持
         from django.contrib.auth import login
@@ -95,3 +102,79 @@ class Register_View(View):
         login(request,user)
 
         return JsonResponse({'code': 0, 'errmsg': 'OK'})
+
+
+###############################登录功能##############################
+class LoginView(View):
+    def post(self,request):
+        # 1.接受参数
+        import json
+        data = json.loads(request.body.decode())
+        # 2.提取参数
+        username = data.get("username")
+        password = data.get("password")
+        remembered = data.get("remembered")
+        # 判断输入的是用户名还是手机号
+        # username为手机好,进行mobile判断
+        # username为用户名,进行username判断
+        if re.match("1[3-9]\d{9}",username):
+            User.USERNAME_FIELD = "mobile"
+        else:
+            User.USERNAME_FIELD = "username"
+
+        # 3.验证参数
+
+        # 4.认证登录用户
+        from django.contrib.auth import authenticate
+        user = authenticate(username=username,password=password)
+        if user is None:
+            return JsonResponse({"code":400,"errmsg":"电话号码错误"})
+        # 5.状态保持
+        from django.contrib.auth import login
+        login(request,user)
+        # 6.选择是否记住登录
+        if remembered:
+            request.session.set_expiry(None)
+        else:
+            request.session.set_expiry(0)
+        response = JsonResponse({'code': 0, 'errmsg': 'OK'})
+        response.set_cookie("username",username,max_age=14*24*3600)
+        return response
+
+##################################登录退出#######################################
+
+class LogoutView(View):
+    def delete(self,request):
+        # 删除状态保持信息
+        from django.contrib.auth import logout
+        logout(request)
+
+        # 把username的cookie信息删除
+        response = JsonResponse({"code":0, "errmsg":"ok"})
+        response.delete_cookie("username")
+        return response
+
+
+###########################用户中心必须用户登录才可以访问##############################
+# 实现个人中心展示
+# LoginRequiredMixin做了什么?
+# 如果
+
+class UserCenter(LoginRequiredJSONMixin,View):
+    def get(self,request):
+
+        # 1.判断必须是登录用户
+
+        # 2.获取用户信息
+        # 3.返回数据
+        # request.user 及request中有一个属性是user,系统根据我们的session信息系统自动添加的
+          
+        user = request.user
+        user_info = {
+            "username":user.username,
+            "mobile":user.mobile,
+            "email":user.email,
+            "email_active":False
+        }
+        return JsonResponse({"code":0,"errmsg":"ok","info_data":user_info})
+
