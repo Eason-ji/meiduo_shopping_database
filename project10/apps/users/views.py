@@ -1,5 +1,6 @@
 import re
 
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
@@ -76,4 +77,76 @@ class RegisterView(View):
         login(request,user)
     # 6.返回响应
         return JsonResponse({"code":0,"errmsg":"ok"})
+
+
+
+###########################登录功能实现################################
+class Login(View):
+    def post(self, request):
+        # 1.接受数据
+        import json
+        data = json.loads(request.body.decode())
+        # 2.提取数据
+        username = data.get("username")
+        password = data.get("password")
+        remembered = data.get("remembered")
+        # 判断username框中输入的是电话号码还是用户名
+        if re.match("1[3-9]\d{9}",username):
+            User.USERNAME_FIELD = "mobile"
+        else:
+            User.USERNAME_FIELD = "username"
+        # 3.验证数据
+        # 3.1 判断三个参数都不为空
+        if not all([username,password,remembered]):
+            return JsonResponse({'code':400,'errmsg':'参数不全'})
+        # 3.2 判断username的格式
+        if not re.match("",username):
+            return JsonResponse({'code':400,'errmsg':'用户名格式输入错误'})
+        # 3.3 判断密码格式
+        if not re.match("",password):
+            return JsonResponse({'code': 400, 'errmsg': '密码格式输入错误'})
+        # 4.认证登录用户
+        user = authenticate(username=username,password=password)
+        if not user:
+            return JsonResponse({'code': 400, 'errmsg': '密码或用户名错误'})
+        # 5.状态保持
+        login(request,user)
+        # 6.是否记住登录判断
+        if remembered:
+            request.session.set_expiry(None)
+        else:
+            request.session.set_expiry(0)
+        # 7.返回响应,显示客户已登录
+        response = JsonResponse({'code': 0,'errmsg': 'ok'})
+        response.set_cookie("username",username, max_age=14*24*3600)
+        return response
+
+####################################退出登录############################################
+class Logout(View):
+    def delete(self,request):
+        # 1.删除状态保持信息session
+        from django.contrib.auth import logout
+        logout(request)
+        # 2.删除username的cookie
+        response = JsonResponse({'code': 0,'errmsg': 'ok'})
+        response.delete_cookie("username")
+        return response
+
+###################################实现个人中心展示######################################
+from utils.views import LoginRequiredJSONMixin
+class Center(LoginRequiredJSONMixin,View):
+    # 1.判断客户是否登录
+    # 在父类中已经进行判断
+    # 2.获取用户信息
+    def get(self,request):
+        user = request.user
+    # 3.返回响应,显示客户信息
+        user_info = {
+            "username":user.username,
+            "password":user.password,
+            "email":user.email,
+            "email_active":False
+        }
+        return JsonResponse({'code': 400, 'errmsg': 'ok',"info_data":user_info})
+
 

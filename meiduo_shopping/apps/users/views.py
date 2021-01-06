@@ -82,7 +82,6 @@ class Register_View(View):
         ----------4.保存数据到MySQL---------
 
         """
-
         # 可以进行用户密码加密
         user = User.objects.create_user(username=username,
                                         password=password,
@@ -174,7 +173,82 @@ class UserCenter(LoginRequiredJSONMixin,View):
             "username":user.username,
             "mobile":user.mobile,
             "email":user.email,
-            "email_active":False
+            "email_active":user.email_active
         }
         return JsonResponse({"code":0,"errmsg":"ok","info_data":user_info})
 
+######################################邮件保存######################################
+from utils.views import LoginRequiredJSONMixin
+class Email(LoginRequiredJSONMixin,View):
+    def put(self,request):
+        # 1.判断是否登录
+        # 2.接受请求
+        import json
+        data = json.loads(request.body.decode())
+        # 3.提取参数
+        email = data.get("email")
+        # 4.验证参数
+        # 5.更新用户信息(添加邮箱)
+        user = request.user
+        user.email = email
+        user.save()
+
+        # 6.发送激活邮件
+        # 需要先设置邮件服务器
+        # from django.core.mail import send_mail
+        # # 邮件主题
+        # subject = "主题"
+        # #
+        # message = "邮件内容"
+        # from_email = "美多商城<qi_rui_hua@163.com>"
+        # # 收件人邮箱列表
+        # recipient_list = ["1054416918@qq.com"]
+        # send_mail(subject=subject,
+        #           message=message,
+        #           from_email=from_email,
+        #           recipient_list=recipient_list,
+        #           html_message=html_message)
+        # 生成一个html
+        from apps.users.utils import generic_user_id
+        token = generic_user_id(user.id)
+        verify_url = "http://www.meiduo.site:8080/success_verify_email.html?token=%s"% token
+        html_message = "<p>尊敬的用户您好!</p>" \
+                       "<p>感谢您使用美多商城!</p>" \
+                       "<p>您的邮箱为:%s 请点击此链接激活您的邮箱</p>" \
+                       "<p><a href=%s>%s</a></p>"% (email,verify_url,verify_url)
+        from celery_tasks.email.tasks import celery_send_email
+        celery_send_email.delay(html_message)
+
+        # 7.返回响应
+
+        return JsonResponse({"code":0,"errmsg":"ok"})
+
+
+
+    ############################################################
+class VerifyEmail(View):
+    def put(self,request):
+        # 1. 接受请求
+        data = request.GET
+        # 2. 提取数据
+        token = data.get("token")
+        # 3. 对数据解密
+        from apps.users.utils import check_user_id
+        user_id = check_user_id(token)
+
+        # 4.判断有没有user_id
+        if user_id is None:
+            return JsonResponse({'code':400,'errmsg':'链接时效'})
+
+        try :
+            user = User.objects.get(id=user_id)
+
+        except User.DoesNotExist:
+            return JsonResponse({'code':400,'errmsg':'链接时效'})
+
+        user.email_active = True
+        user.save()
+
+        return JsonResponse({'code':0,'errmsg':'ok'})
+
+        pass
