@@ -8,7 +8,9 @@ urlpatterns = [
     path("logout/",views.LogoutView.as_view()),
     path("info/",views.UserCenter.as_view()),
     path("emails/",views.Email.as_view()),
-    path("emails/verification/",views.VerifyEmail.as_view())
+    path("emails/verification/",views.VerifyEmail.as_view()),
+    path("addresses/create/",views.CreateAddress.as_view()),
+    path("addresses/",views.AddressList.as_view()),
 
 
 
