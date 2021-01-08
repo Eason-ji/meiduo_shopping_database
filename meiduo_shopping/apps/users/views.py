@@ -279,16 +279,16 @@ class CreateAddress(LoginRequiredJSONMixin, View):
         # 5.数据入库
 
         address = Address.objects.create(
-            user=request.user,
-            title=receiver,
-            receiver=receiver,
-            province_id=province_id,
-            city_id=city_id,
-            district_id=district_id,
-            place=place,
-            mobile=mobile,
-            tel=tel,
-            email=email
+                user=request.user,
+                title=receiver,
+                receiver=receiver,
+                province_id=province_id,
+                city_id=city_id,
+                district_id=district_id,
+                place=place,
+                mobile=mobile,
+                tel=tel,
+                email=email
         )
 
         # 6.返回响应
