@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "apps.oauth",
     "apps.areas",
     "apps.contents",
-    "apps.goods"
+    "apps.goods",
+    "django_crontab"
 ]
 
 MIDDLEWARE = [
@@ -155,7 +156,14 @@ CACHES = {
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
-    }
+    },
+    'history': {  # 浏览记录的存储
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/3',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
     }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'session'
@@ -231,3 +239,19 @@ EMAIL_FROM = '美多商城<qi_rui_hua@163.com>'
 #######################设置文件存储类########################
 
 DEFAULT_FILE_STORAGE = 'utils.storage.Qiniuyun'
+
+###################定时任务######################
+
+# CORNJOBS = [(),(),()......]
+# 参数1 频次  * * * * 分别表示 分 时 日 月 周
+# 参数2 人物函数
+# 参数3 定时人物的日志
+CRONJOBS = [
+    # 每1分钟生成一次首页静态文件
+    ('*/1 * * * *', 'apps.contents.crons.generate_static_index_html', '>> ' + os.path.join(BASE_DIR, 'logs/crontab.log'))
+]
+
+CRONTAB_COMMAND_PREFIX = 'LANG_ALL=zh_cn.UTF-8'
+# python manage.py crontab show 展示所有的定时任务
+# python manage.py crontab add  添加定时人物
+# python manage.py crontab remove 删除我们的任务

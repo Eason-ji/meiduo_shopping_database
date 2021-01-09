@@ -14,7 +14,7 @@ class Qiniuyun(Storage):
         # name 其实就是数据库中图片名字
         # 我们期望的图片显示,其实就是http://七牛云外联+图片名
         # 需要到settings文件中去配置
-        return "http://qk2tzbru8.hn-bkt.clouddn.com/"+name
+        return "http://qmllvum7m.hn-bkt.clouddn.com/"+name
 
         pass
 
