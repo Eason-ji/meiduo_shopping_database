@@ -8,6 +8,7 @@ from django.views import View
 
 from apps.goods.models import GoodsCategory, SKU, GoodsVisitCount
 from utils.goods import get_categories, get_contents, get_breadcrumb, get_goods_specs
+from utils.views import LoginRequiredJSONMixin
 
 
 class IndexView(View):
@@ -228,3 +229,48 @@ class CategoryVisit(View):
             gvc.save()
 
         return JsonResponse({"code": 0, "errmsg": 'ok'})
+
+#########################
+"""
+客户没点击一次商品分类就记录用户的浏览记录
+浏览记录应该是按时间顺序进行排序的,
+浏览记录最多不超过五条
+数据保存到redis中,并选择列表的形式存储(有序集合也行)
+    :key = user.id  value = [sku.id, sku.id, sku.id]
+    
+流程:
+请求方式 POST  browse_histories/  Json
+必须是登录用户
+接受请求
+提取参数(sku.id)
+验证商品id
+连接redis
+列表中的数据有可能已经存在了,浏览记录去重
+redis的value中添加商品id
+最多保存五条浏览记录
+返回响应
+"""
+
+
+class GoodsHistory(LoginRequiredJSONMixin, View):
+
+    def post(self, request):
+        # 提取参数
+        import json
+        data = json.loads(request.body.decode())
+        sku_id = data.get("sku_id")
+
+        try:
+            sku = SKU.objects.get(id=sku_id)
+        except SKU.DoesNotExist:
+            return JsonResponse({'code': 400, 'errmsg': 'sku不存在'})
+
+        from django_redis import get_redis_connection
+        redis_cli = get_redis_connection("history")
+
+        redis_cli.lrem(request.user.id, 0, sku_id)
+        redis_cli.lpush(request.user.id, sku_id)
+        redis_cli.ltrim(request.user.id, 0, 4)
+
+        return JsonResponse({"code": 0, "errmsg": "ok"})
+
