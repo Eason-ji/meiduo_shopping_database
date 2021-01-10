@@ -2,22 +2,24 @@
 
 # 1.指定当前系统的目录到BASE_
 import sys
-sys.path.insert(0, '../')
 
+sys.path.insert(0, '../')
 
 # 告知系统 django的配置文件在哪儿
 import os
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "meiduo_shopping.settings")
 
 # Django文件是不能单独运行的
 # 提供一个django环境 给单独运行文件
 import django
+
 django.setup()
 
 from django.template import loader
 from django.conf import settings
 from apps.goods import models
-from utils.goods import get_breadcrumb,get_goods_specs,get_categories
+from utils.goods import get_breadcrumb, get_goods_specs, get_categories
 
 
 def generate_static_sku_detail_html(sku_id):
@@ -46,9 +48,10 @@ def generate_static_sku_detail_html(sku_id):
 
     template = loader.get_template('detail.html')
     html_text = template.render(context)
-    file_path = os.path.join(os.path.dirname(settings.BASE_DIR), 'front_end_pc/goods/'+str(sku_id)+'.html')
+    file_path = os.path.join(os.path.dirname(settings.BASE_DIR), 'front_end_pc/goods/' + str(sku_id) + '.html')
     with open(file_path, 'w') as f:
         f.write(html_text)
+
 
 if __name__ == '__main__':
     skus = models.SKU.objects.all()
