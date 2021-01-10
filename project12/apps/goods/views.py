@@ -95,3 +95,47 @@ class ListView(View):
             "count": total_num,
         })
 
+###################热销商品展示########################
+"""
+需求:
+1.将销量最高的商品展示在热销栏
+2.热销商品按销量排序
+3.只展示销量前三的的产品
+
+流程:
+1.接受参数
+2.提取参数
+3.按分类id获取分类
+4.验证分类是否存在
+5.根据该分类下销量靠前三的商品
+6.将数据转换为字典列表
+7.返回数据
+
+URL:hot/<category_id>/
+"""
+
+
+class HotGoods(View):
+    def get(self,request, category_id):
+        try:
+            category = GoodsCategory.objects.get(id=category_id)
+        except GoodsCategory.DoesNotExist:
+            return JsonResponse({"code": 400, "errmsg": "没有此分类"})
+
+        # 验证参数
+        # 获取数据
+        sku = SKU.objects.filter(category_id=category_id).order_by("-sales")[0:3]
+
+        # 讲数据转换为字典列表
+        sku_list = []
+        for item in sku:
+            sku_list.append({
+                "id":item.id,
+                "name":item.name,
+                "price":item.price,
+                "default_image_url":item.default_image.url
+            })
+
+        return JsonResponse({
+            "code":0, "errmsg":"ok", "hot_skus":sku_list
+        })
