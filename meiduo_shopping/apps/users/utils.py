@@ -6,18 +6,15 @@ def generic_user_id(user_id):
     # 1.
     s = Serializer(secret_key="abc", expires_in=3600)
     data = {
-        "user_id" : user_id
+        "user_id": user_id
     }
     secret_data = s.dumps(data)
-    return  secret_data
-
-
-
+    return secret_data
 
 
 # 解密
 def check_user_id(token):
-    s = Serializer(secret_key="abc" , expires_in=3600)
+    s = Serializer(secret_key="abc", expires_in=3600)
     try:
         data = s.loads(token)
 
@@ -26,18 +23,3 @@ def check_user_id(token):
         return None
 
     return data.get("user_id")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -3,7 +3,7 @@ from django.core.files.storage import Storage
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import View
-from apps.users.models import User,Address
+from apps.users.models import User, Address
 from django.http import JsonResponse
 # class UsernameCountView(View):
 #
@@ -28,8 +28,8 @@ class UsernameCountView(View):
         count = User.objects.filter(username=username).count()
         return JsonResponse({'code': 0, 'errmsg': 'OK', 'count': count})
 
-
     #######################注册功能########################
+
 
 class Register_View(View):
     """
@@ -41,10 +41,9 @@ class Register_View(View):
     6.反回响应
     """
 
-
-    def post(self,request):
+    def post(self, request):
         # 1.接受请求
-        body=request.body
+        body = request.body
         body_str = body.decode()
         import json
         body_dic = json.loads(body_str)
@@ -61,23 +60,23 @@ class Register_View(View):
 
         """
         # 3.1 提取的变量都必须有值
-        if not all([username,password,password2,mobile,allow]):
-        # all(iterable) 函数
-        # 用于判断给定的可迭代参数，若迭代序列中所有值都不为0、空、None、False 外都算True
-            return JsonResponse({"code":400,"errmsg":"参数不全"})
+        if not all([username, password, password2, mobile, allow]):
+            # all(iterable) 函数
+            # 用于判断给定的可迭代参数，若迭代序列中所有值都不为0、空、None、False 外都算True
+            return JsonResponse({"code": 400, "errmsg": "参数不全"})
 
         # 3.2 验证用户名
         if not re.match(r'^[a-zA-Z0-9_]{5,20}$', username):
-            return JsonResponse({"code":400,"errmsg":"无效名字"})
+            return JsonResponse({"code": 400, "errmsg": "无效名字"})
         # 3.3 验证密码是否符合规则
         if not re.match(r'^[0-9A-Za-z]{8,20}$', password):
-            return JsonResponse({"code":400,"errmsg":"密码无效"})
+            return JsonResponse({"code": 400, "errmsg": "密码无效"})
         # 3.4 验证密码和确认密码是否一致
         if password2 != password:
-            return JsonResponse({"code":400,"errmsg":"密码不一致"})
+            return JsonResponse({"code": 400, "errmsg": "密码不一致"})
         # 3.5 验证手机号码是否符合
         if not re.match(r'^1[3-9]\d{9}$', mobile):
-            return JsonResponse({"code":400,"errmsg":"电话号码错误"})
+            return JsonResponse({"code": 400, "errmsg": "电话号码错误"})
         """
         ----------4.保存数据到MySQL---------
 
@@ -98,14 +97,14 @@ class Register_View(View):
         # 参数1  request 请求
         # 参数2  user 用户信息
 
-        login(request,user)
+        login(request, user)
 
         return JsonResponse({'code': 0, 'errmsg': 'OK'})
 
 
 ###############################登录功能##############################
 class LoginView(View):
-    def post(self,request):
+    def post(self, request):
         # 1.接受参数
         import json
         data = json.loads(request.body.decode())
@@ -116,7 +115,7 @@ class LoginView(View):
         # 判断输入的是用户名还是手机号
         # username为手机好,进行mobile判断
         # username为用户名,进行username判断
-        if re.match("1[3-9]\d{9}",username):
+        if re.match("1[3-9]\d{9}", username):
             User.USERNAME_FIELD = "mobile"
         else:
             User.USERNAME_FIELD = "username"
@@ -125,31 +124,32 @@ class LoginView(View):
 
         # 4.认证登录用户
         from django.contrib.auth import authenticate
-        user = authenticate(username=username,password=password)
+        user = authenticate(username=username, password=password)
         if user is None:
-            return JsonResponse({"code":400,"errmsg":"电话号码错误"})
+            return JsonResponse({"code": 400, "errmsg": "电话号码错误"})
         # 5.状态保持
         from django.contrib.auth import login
-        login(request,user)
+        login(request, user)
         # 6.选择是否记住登录
         if remembered:
             request.session.set_expiry(None)
         else:
             request.session.set_expiry(0)
         response = JsonResponse({'code': 0, 'errmsg': 'OK'})
-        response.set_cookie("username",username,max_age=14*24*3600)
+        response.set_cookie("username", username, max_age=14 * 24 * 3600)
         return response
+
 
 ##################################登录退出#######################################
 
 class LogoutView(View):
-    def delete(self,request):
+    def delete(self, request):
         # 删除状态保持信息
         from django.contrib.auth import logout
         logout(request)
 
         # 把username的cookie信息删除
-        response = JsonResponse({"code":0, "errmsg":"ok"})
+        response = JsonResponse({"code": 0, "errmsg": "ok"})
         response.delete_cookie("username")
         return response
 
@@ -159,28 +159,30 @@ class LogoutView(View):
 # LoginRequiredMixin做了什么?
 # 如果
 
-class UserCenter(LoginRequiredJSONMixin,View):
-    def get(self,request):
-
+class UserCenter(LoginRequiredJSONMixin, View):
+    def get(self, request):
         # 1.判断必须是登录用户
 
         # 2.获取用户信息
         # 3.返回数据
         # request.user 及request中有一个属性是user,系统根据我们的session信息系统自动添加的
-          
+
         user = request.user
         user_info = {
-            "username":user.username,
-            "mobile":user.mobile,
-            "email":user.email,
-            "email_active":user.email_active
+            "username": user.username,
+            "mobile": user.mobile,
+            "email": user.email,
+            "email_active": user.email_active
         }
-        return JsonResponse({"code":0,"errmsg":"ok","info_data":user_info})
+        return JsonResponse({"code": 0, "errmsg": "ok", "info_data": user_info})
+
 
 ######################################邮件保存######################################
 from utils.views import LoginRequiredJSONMixin
-class Email(LoginRequiredJSONMixin,View):
-    def put(self,request):
+
+
+class Email(LoginRequiredJSONMixin, View):
+    def put(self, request):
         # 1.判断是否登录
         # 2.接受请求
         import json
@@ -211,23 +213,23 @@ class Email(LoginRequiredJSONMixin,View):
         # 生成一个html
         from apps.users.utils import generic_user_id
         token = generic_user_id(user.id)
-        verify_url = "http://www.meiduo.site:8080/success_verify_email.html?token=%s"% token
+        verify_url = "http://www.meiduo.site:8080/success_verify_email.html?token=%s" % token
         html_message = "<p>尊敬的用户您好!</p>" \
                        "<p>感谢您使用美多商城!</p>" \
                        "<p>您的邮箱为:%s 请点击此链接激活您的邮箱</p>" \
-                       "<p><a href=%s>%s</a></p>"% (email,verify_url,verify_url)
+                       "<p><a href=%s>%s</a></p>" % (email, verify_url, verify_url)
         from celery_tasks.email.tasks import celery_send_email
         celery_send_email.delay(html_message)
 
         # 7.返回响应
 
-        return JsonResponse({"code":0,"errmsg":"ok"})
+        return JsonResponse({"code": 0, "errmsg": "ok"})
+
+############################################################
 
 
-
-    ############################################################
 class VerifyEmail(View):
-    def put(self,request):
+    def put(self, request):
         # 1. 接受请求
         data = request.GET
         # 2. 提取数据
@@ -238,18 +240,18 @@ class VerifyEmail(View):
 
         # 4.判断有没有user_id
         if user_id is None:
-            return JsonResponse({'code':400,'errmsg':'链接时效'})
+            return JsonResponse({'code': 400, 'errmsg': '链接时效'})
 
-        try :
+        try:
             user = User.objects.get(id=user_id)
 
         except User.DoesNotExist:
-            return JsonResponse({'code':400,'errmsg':'链接时效'})
+            return JsonResponse({'code': 400, 'errmsg': '链接时效'})
 
         user.email_active = True
         user.save()
 
-        return JsonResponse({'code':0,'errmsg':'ok'})
+        return JsonResponse({'code': 0, 'errmsg': 'ok'})
 
         pass
 
@@ -257,7 +259,7 @@ class VerifyEmail(View):
 #################地址管理####################
 
 class CreateAddress(LoginRequiredJSONMixin, View):
-    def post(self,request):
+    def post(self, request):
         # 1.必须是登录用户
         # 2.接受参数
         import json
@@ -275,20 +277,19 @@ class CreateAddress(LoginRequiredJSONMixin, View):
 
         # 4.参数验证
 
-
         # 5.数据入库
 
         address = Address.objects.create(
-                user=request.user,
-                title=receiver,
-                receiver=receiver,
-                province_id=province_id,
-                city_id=city_id,
-                district_id=district_id,
-                place=place,
-                mobile=mobile,
-                tel=tel,
-                email=email
+            user=request.user,
+            title=receiver,
+            receiver=receiver,
+            province_id=province_id,
+            city_id=city_id,
+            district_id=district_id,
+            place=place,
+            mobile=mobile,
+            tel=tel,
+            email=email
         )
 
         # 6.返回响应
@@ -304,15 +305,16 @@ class CreateAddress(LoginRequiredJSONMixin, View):
             "tel": address.tel,
             "email": address.email
         }
-        return JsonResponse({'code': 0, 'errmsg': '新增地址成功', 'address':address_dict})
+        return JsonResponse({'code': 0, 'errmsg': '新增地址成功', 'address': address_dict})
+
 
 ###########################地址展示#######################
 
-class AddressList(LoginRequiredJSONMixin,View):
-    def get(self,request):
+class AddressList(LoginRequiredJSONMixin, View):
+    def get(self, request):
         # 1.判断是否是登录用户
         # 2.根据用户信息查询地址信息
-        addresses = Address.objects.filter(user=request.user,is_deleted=False)
+        addresses = Address.objects.filter(user=request.user, is_deleted=False)
 
         # 3.需要对查询结果集进行遍历,装换为字典列表
         addresses_list = []
@@ -329,7 +331,6 @@ class AddressList(LoginRequiredJSONMixin,View):
                 "tel": item.tel,
                 "email": item.email
             })
-
 
         # 4.返回响应
         return JsonResponse({'code': 0,

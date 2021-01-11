@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views import View
+from django_redis import get_redis_connection
 
 from apps.goods.models import GoodsCategory, SKU, GoodsVisitCount
 from utils.goods import get_categories, get_contents, get_breadcrumb, get_goods_specs
@@ -166,19 +167,20 @@ class HotGoods(View):
 GET   /detail/<sku_id>/
 """
 
+
 class Detail(View):
     def get(self, request, sku_id):
         try:
             sku = SKU.objects.get(id=sku_id)
-            print("sku数据"+sku)
+            print("sku数据" + sku)
         except SKU.DoesNotExist:
             return JsonResponse({"code": 400, "errmsg": "没有次商品"})
         # 获取分类数据
         Category = get_categories()
-        print("分类数据"+Category)
+        print("分类数据" + Category)
         # 获取面包数据
         breadcrumb = get_breadcrumb(sku.Category)
-        print("面包屑数据"+breadcrumb)
+        print("面包屑数据" + breadcrumb)
 
         # 获取规格和规格选项
         specs = get_goods_specs(sku)
@@ -192,6 +194,7 @@ class Detail(View):
         }
 
         return render(request, "detail.html", context)
+
 
 #####################统计商品分类访问量########################
 """
@@ -207,6 +210,8 @@ class Detail(View):
 6.若不存在则添加记录
 7.返回响应
 """
+
+
 class CategoryVisit(View):
     def post(self, request, category_id):
         try:
@@ -221,7 +226,7 @@ class CategoryVisit(View):
         except GoodsVisitCount.DoesNotExist:
             GoodsVisitCount.objects.create(
                 category=category,
-                date = today,
+                date=today,
                 count=1
             )
         else:
@@ -229,6 +234,7 @@ class CategoryVisit(View):
             gvc.save()
 
         return JsonResponse({"code": 0, "errmsg": 'ok'})
+
 
 #########################
 """
@@ -250,7 +256,6 @@ redis的value中添加商品id
 最多保存五条浏览记录
 返回响应
 """
-
 
 class GoodsHistory(LoginRequiredJSONMixin, View):
 
@@ -274,3 +279,36 @@ class GoodsHistory(LoginRequiredJSONMixin, View):
 
         return JsonResponse({"code": 0, "errmsg": "ok"})
 
+    """
+    需求:
+    1.显示出历史浏览记录
+    
+    流程:
+    1.必须是登录用户
+    2.获取用户信息
+    3.连接redis
+    4.获取历史记录数据
+    5.讲数据转换为字典数据
+    6.返回响应
+    """
+    def get(self, request):
+        # 获取用户信息
+        user = request.user
+
+        # 连接redis
+        redis_cli = get_redis_connection("history")
+        # 获取数据
+        data = redis_cli.lrange(user.id, 0, -1)
+        # 讲数据转换为字典列表
+        data_list = []
+        for i in data:
+            sku = SKU.objects.get(id=i)
+            data_list.append({
+                "id":sku.id,
+                "name":sku.name,
+                "price":sku.price,
+                "default_image_url":sku.default_image.url
+            })
+
+            # 放回响应
+            return JsonResponse({"code": 0, "errmsg": "ok", "skus": data_list})

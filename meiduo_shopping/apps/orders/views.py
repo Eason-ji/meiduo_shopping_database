@@ -78,56 +78,6 @@ class Order(LoginRequiredJSONMixin, View):
         return JsonResponse({'code':0,'errmsg':'ok','context':context})
 
 
-
-
-
-
-
-class Order1(LoginRequiredJSONMixin, View):
-    def get(self, request):
-         # 获取用户信息
-            # 查询
-        user = request.user
-        addresses = Address.objects.filter(user=user, is_delete=False)
-            # 讲对象列表转换为字典列表
-        addresses_list=[]
-        for address in addresses:
-            addresses_list.append({
-                 'id': address.id,
-                 'province': address.province.name,
-                 'city': address.city.name,
-                 'district': address.district.name,
-                 'place': address.place,
-                 'receiver': address.receiver,
-                 'mobile': address.mobile
-            })
-            # 获取购物车中选中商品信息
-        redis_cli= get_redis_connection("carts")
-            # 获取set
-        selected_ids=redis_cli.smenbers("selected_%s"%user.id)
-            # 获取hash
-        sku_id_counts = redis_cli.hgetall("carts_id_%s"%user.id)
-            # 遍历选中商品的id
-        selected_carts=[]
-        for id in selected_ids:
-            sku = SKU.objects.get(id=id)
-            selected_carts.append({
-                 "id":sku.id,
-                 "name":sku.name,
-                 "default_image_url":sku.default_image.url,
-                 "count":int(sku_id_counts[id]),
-                 "price":sku.price
-            })
-        # 运费
-        freight = 10
-        context = {
-            'addresses':addresses_list,
-            'skus':selected_carts,
-            'freight':freight
-        }
-        # 组织数据返回响应
-        return JsonResponse({'code':0,'errmsg':'ok','context':context})
-
 #################保存订单###############
 """
 需求:

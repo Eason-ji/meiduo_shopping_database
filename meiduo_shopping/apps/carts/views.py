@@ -22,7 +22,6 @@ from django.views import View
 from django_redis import get_redis_connection
 from utils.views import LoginRequiredJSONMixin
 
-
 """ ********************添加购物车********************
 ---流程:---
 1.必须是登录用户
@@ -38,7 +37,9 @@ from utils.views import LoginRequiredJSONMixin
 
 URL  cars/
 """
-class Carts(LoginRequiredJSONMixin,View):
+
+
+class Carts(LoginRequiredJSONMixin, View):
 
     def post(self, request):
         # 获取用户信息
@@ -54,23 +55,23 @@ class Carts(LoginRequiredJSONMixin,View):
 
         # 验证参数
         if not all([sku_id, count]):
-            return JsonResponse({"code":400, "errmsg":"缺少参数"})
+            return JsonResponse({"code": 400, "errmsg": "缺少参数"})
         try:
             sku = SKU.objects.get(id=sku_id)
         except SKU.DoesNotExist:
-            return JsonResponse({"code":400, "errmsg":"数据错误"})
+            return JsonResponse({"code": 400, "errmsg": "数据错误"})
         try:
-            count=int(count)
+            count = int(count)
         except Exception:
-            count=1
+            count = 1
         # 数据入库
         redis_cli = get_redis_connection("carts")
         # hash
-        redis_cli.hset("carts_id_%s"% user.id, sku_id, count)
+        redis_cli.hset("carts_id_%s" % user.id, sku_id, count)
         # set
-        redis_cli.sadd("selected_%s"% user.id, sku_id)
+        redis_cli.sadd("selected_%s" % user.id, sku_id)
 
-        return JsonResponse({"code":0, "errmsg":"ok"})
+        return JsonResponse({"code": 0, "errmsg": "ok"})
 
     """ ********************展示购物车********************
     ---流程:---
@@ -88,31 +89,29 @@ class Carts(LoginRequiredJSONMixin,View):
     8.返回响应
     """
 
-
-    def get(self,request):
+    def get(self, request):
         user = request.user
         redis_cli = get_redis_connection("carts")
         # 获取hash
-        carts_hash = redis_cli.hgetall("carts_id_%s"% user.id)
+        carts_hash = redis_cli.hgetall("carts_id_%s" % user.id)
         # {sku.id:count}
         # 获取set
-        carts_set = redis_cli.smembers("selected_%s"% user.id)
+        carts_set = redis_cli.smembers("selected_%s" % user.id)
         # keys
         ids = carts_hash.keys()
         carts_list = []
         for id in ids:
             sku = SKU.objects.get(id=id)
             carts_list.append({
-                "id":sku.id,
-                "name":sku.name,
-                "price":sku.price,
-                "default_image_url":sku.default_image.url,
-                "selected":id in carts_set,
-                "count":int(carts_hash[id]),
-                "amount":sku.price*int(carts_hash[id])
+                "id": sku.id,
+                "name": sku.name,
+                "price": sku.price,
+                "default_image_url": sku.default_image.url,
+                "selected": id in carts_set,
+                "count": int(carts_hash[id]),
+                "amount": sku.price * int(carts_hash[id])
             })
-        return JsonResponse({"code":0,"errmsg":"ok","cart_skus":carts_list})
-
+        return JsonResponse({"code": 0, "errmsg": "ok", "cart_skus": carts_list})
 
     """ ********************修改购物车********************
     ---流程:---
@@ -131,7 +130,8 @@ class Carts(LoginRequiredJSONMixin,View):
     
     URL PUT 
     """
-    def put(self,request):
+
+    def put(self, request):
         user = request.user
         data = json.loads(request.body.decode())
 
@@ -141,27 +141,27 @@ class Carts(LoginRequiredJSONMixin,View):
         try:
             sku = SKU.objects.get(id=sku_id)
         except SKU.DoesNotExist:
-            return JsonResponse({"code":400, "errmsg":"not found"})
+            return JsonResponse({"code": 400, "errmsg": "not found"})
 
         redis_cli = get_redis_connection("carts")
 
-        redis_cli.hset("carts_%s"% user.id, sku_id, count)
+        redis_cli.hset("carts_%s" % user.id, sku_id, count)
 
         if selected:
-            redis_cli.sadd("selected_%s"% user.id, sku_id)
+            redis_cli.sadd("selected_%s" % user.id, sku_id)
         else:
-            redis_cli.srem("selected_%s"%user.id, sku_id)
+            redis_cli.srem("selected_%s" % user.id, sku_id)
 
         cart_sku = {
-             "id":sku_id,
-             "name":sku.name,
-             "count":int(count),
-             "selected":selected,
-             "price":sku.price,
-             "amount": sku.price*int(count),
-             "default_image_url":sku.default_image.url
+            "id": sku_id,
+            "name": sku.name,
+            "count": int(count),
+            "selected": selected,
+            "price": sku.price,
+            "amount": sku.price * int(count),
+            "default_image_url": sku.default_image.url
         }
-        return JsonResponse({"code":0,"errmsg":"","cart_sku":cart_sku})
+        return JsonResponse({"code": 0, "errmsg": "", "cart_sku": cart_sku})
 
     """ ********************删除购物车********************
     ---流程:---
@@ -177,6 +177,7 @@ class Carts(LoginRequiredJSONMixin,View):
     
     URL DELETE 
     """
+
     def delete(self, request):
         # 获取用户信息
         user = request.user
@@ -189,16 +190,14 @@ class Carts(LoginRequiredJSONMixin,View):
         try:
             sku = SKU.objects.get(id=sku_id)
         except SKU.DoesNotExist:
-            return JsonResponse({"code":400, "errmsg":"not found"})
+            return JsonResponse({"code": 400, "errmsg": "not found"})
 
         # 删除数据
-            # 连接redis
+        # 连接redis
         redis_cli = get_redis_connection("carts")
-            # 删除hash
-        redis_cli.hdel("carts_id_%s"%user.id, sku_id)
-            # 删除set
-        redis_cli.srem("selected_%s"%user.id, sku_id)
+        # 删除hash
+        redis_cli.hdel("carts_id_%s" % user.id, sku_id)
+        # 删除set
+        redis_cli.srem("selected_%s" % user.id, sku_id)
 
-        return JsonResponse({"code":0,"errmsg":"ok"})
-
-
+        return JsonResponse({"code": 0, "errmsg": "ok"})
