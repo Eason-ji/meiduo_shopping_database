@@ -78,3 +78,59 @@ class Carts(View):
                 "amount": sku.price * int(hash[id])
             })
         return JsonResponse({"code": 0, "errmsg": "ok", "cart_skus": sku_list})
+
+    """ ********************修改购物车********************
+    ---流程:---
+    需求:
+    1.以一条购物车为修改单位(包括商品id,数量,选中状态)
+    2.当对一条购物车数据进行数量,选中状态,已经商品id进行修改时讲发起修改请求
+    
+    
+    流程:
+    0.获取用户信息
+    1.获取数据
+    2.提取参数
+    3.验证参数并获取商品详情
+    4.更新数据
+        4.1 连接redis
+        4.2 更新hash数据
+        4.3 更新set数据
+    5.返回更新后的数据  
+    
+    URL PUT 
+    """
+    def put(self,request):
+        # 获取参数
+        user = request.user
+        # 获取数据
+        data = json.loads(request.body.decode())
+        # 提取数据
+        sku_id = data.get("skus_id")
+        count = data.get("count")
+        selected = data.get("selected")
+        # 验证参数并获取商品
+        try:
+            sku= SKU.objects.get(id=sku_id)
+        except SKU.DoesNotExist:
+            return JsonResponse({"code": 400, "errmsg": "not found"})
+        # 更新数据
+            # 4.1 连接redis
+        redis_cli = get_redis_connection("carts")
+            # 4.2 更新hash数据
+        hash = redis_cli.hset("carts_%s"%user.id)
+            # 4,3 更新set数据
+        if selected:
+            redis_cli.sadd("selected_%s"%user.id)
+        else:
+            redis_cli.srem("selected_%s"%user.id)
+        # 返回响应
+        cart_sku = {
+            "id": sku_id,
+            "name": sku.name,
+            "count": int(count),
+            "selected": selected,
+            "price": sku.price,
+            "amount": sku.price * int(count),
+            "default_image_url": sku.default_image.url
+        }
+        return JsonResponse({"code": 0, "errmsg": "", "cart_sku": cart_sku})
