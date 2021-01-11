@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="80a17905-5df2-47f9-9f22-fb62cd6ea7c8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/goods/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/goods/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/users/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/users/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meiduo_shopping/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/meiduo_shopping/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/generic_detail_html.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/generic_detail_html.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project12/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../project12/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +116,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -215,6 +214,7 @@
       <workItem from="1610152248251" duration="24866000" />
       <workItem from="1610276129173" duration="161000" />
       <workItem from="1610280447245" duration="1428000" />
+      <workItem from="1610324795315" duration="1890000" />
     </task>
     <servers />
   </component>
