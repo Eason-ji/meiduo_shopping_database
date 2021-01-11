@@ -75,9 +75,9 @@ class Carts(View):
                 "name": sku.name,
                 "price": sku.price,
                 "default_image_url": sku.default_image.url,
-                "selected": id in set,
-                "count": int(hash[id]),
-                "amount": sku.price * int(hash[id])
+                "selected": i in set,
+                "count": int(hash[i]),
+                "amount": sku.price * int(hash[i])
             })
         return JsonResponse({"code": 0, "errmsg": "ok", "cart_skus": sku_list})
 
@@ -108,7 +108,7 @@ class Carts(View):
         # 获取数据
         data = json.loads(request.body.decode())
         # 提取数据
-        sku_id = data.get("skus_id")
+        sku_id = data.get("sku_id")
         count = data.get("count")
         selected = data.get("selected")
         # 验证参数并获取商品
@@ -120,12 +120,12 @@ class Carts(View):
         # 4.1 连接redis
         redis_cli = get_redis_connection("carts")
         # 4.2 更新hash数据
-        hash = redis_cli.hset("carts_%s" % user.id)
+        hash = redis_cli.hset("carts_%s" % user.id, sku_id, count)
         # 4,3 更新set数据
         if selected:
-            redis_cli.sadd("selected_%s" % user.id)
+            redis_cli.sadd("selected_%s" % user.id, sku_id)
         else:
-            redis_cli.srem("selected_%s" % user.id)
+            redis_cli.srem("selected_%s" % user.id, sku_id)
         # 返回响应
         cart_sku = {
             "id": sku_id,
