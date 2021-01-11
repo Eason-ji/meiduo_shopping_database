@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     "apps.areas",
     "apps.contents",
     "apps.goods",
-    "django_crontab"
+    "django_crontab",
+    "apps.carts",
+    "apps.orders"
 ]
 
 MIDDLEWARE = [
@@ -157,6 +159,13 @@ CACHES = {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     },
+    'carts': {  # 浏览记录的存储
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/4',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'session'
@@ -203,7 +212,7 @@ LOGGING = {
             'propagate': True,  # 是否继续传递日志信息
             'level': 'INFO',  # 日志器接收的最低日志级别
         },
-    }
+    },
 }
 
 ##################注册配置#######################
