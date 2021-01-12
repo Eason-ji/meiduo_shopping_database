@@ -162,7 +162,6 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
                 pay_method=pay_method,
                 status=status
             )
-
             # -----订单商品数据入库-----
             redis_cli = get_redis_connection("carts")
             # 获取选中商品的id
@@ -181,9 +180,21 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
                     return JsonResponse({'code': 400, 'errmsg': '下单失败,库存不足'})
                 # 若满足需求
                 # 更新商品表的销量和库存
-                sku.sales += custom_count
-                sku.stock -= custom_count
-                sku.save()
+                # sku.sales += custom_count
+                # sku.stock -= custom_count
+                # sku.save()
+                # 更新前先判断记录的值是否和现在查询的值一致
+                # 更新前数据
+                old_stock = sku.stock
+                # 获取更新后数据
+                new_stock = sku.stock-custom_count
+                new_sales = sku.sales+custom_count
+                result = SKU.objects.filter(id=id, stock=old_stock).update(sales=new_sales, stock=new_stock)
+                # result = 0 更新失败时会返回的值
+                # result = 1 更新成功时会返回的值
+                if result == 0:
+                    transaction.savepoint_rollback(start_point)
+                    return JsonResponse({'code':400,'errmsg':'下单失败'})
 
                 # 保存订单商品数据
                 OrderGoods.objects.create(
