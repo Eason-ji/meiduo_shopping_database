@@ -2,25 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="80a17905-5df2-47f9-9f22-fb62cd6ea7c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/carts/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/orders/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/orders/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/orders/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/orders/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/orders/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/meiduo_shopping/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/meiduo_shopping/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meiduo_shopping/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/meiduo_shopping/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project12/apps/order/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../project12/apps/order/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,6 +229,7 @@
       <workItem from="1610276129173" duration="161000" />
       <workItem from="1610280447245" duration="1428000" />
       <workItem from="1610324795315" duration="23901000" />
+      <workItem from="1610412006190" duration="14511000" />
     </task>
     <servers />
   </component>

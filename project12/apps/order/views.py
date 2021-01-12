@@ -42,7 +42,7 @@ class Order(View):
         # 查询商品信息
         redis_cli = get_redis_connection("carts")
         hash = redis_cli.hgetall("carts_%s"%user.id)
-        set = redis_cli.smember("selected_%s"%user.id)
+        set = redis_cli.smembers("selected_%s"%user.id)
         sku_list = []
         for key in hash:
             sku = SKU.objects.get(id=key)
