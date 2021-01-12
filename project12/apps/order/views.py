@@ -1,6 +1,7 @@
 import json
 from decimal import Decimal
 
+from django.db import transaction
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.utils import timezone
@@ -146,47 +147,54 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
         total_count = 0
         total_amount = Decimal("0")
 
-        order = OrderInfo.objects.crea(
-            order_id=order_id,
-            user=user,
-            address=address,
-            total_count=total_count,
-            total_amount=total_amount,
-            freight=freight,
-            pay_method=pay_method,
-            status=status
-        )
+        # 事物开始
+        with transaction.atomic():
+            # 事物开始点
+            start_point = transaction.savepoint()
 
-        # -----订单商品数据入库-----
-        redis_cli = get_redis_connection("carts")
-        # 获取选中商品的id
-        selected_id = redis_cli.smembers("selected_%s" % user.id)
-        # 获取hash数据
-        hash_data = redis_cli.hegetall("carts_%s" % user.id)
-        # 遍历获取商品详细数据
-        for id in selected_id:
-            sku = SKU.objects.get(id=id)
-            # 获取商品库存,判断商品库存是否满足续需求
-            mysql_stock = sku.stock
-            custom_count = hash_data[id]
-            # 若无法满足需求
-            if custom_count > mysql_stock:
-                return JsonResponse({'code': 400, 'errmsg': '下单失败,库存不足'})
-            # 若满足需求
-            # 更新商品表的销量和库存
-            sku.sales += custom_count
-            sku.stock -= custom_count
-            sku.save()
-
-            # 保存订单商品数据
-            OrderGoods.objects.create(
-                order=order,
-                sku=sku,
-                count=custom_count,
-                price=sku.price
+            order = OrderInfo.objects.crea(
+                order_id=order_id,
+                user=user,
+                address=address,
+                total_count=total_count,
+                total_amount=total_amount,
+                freight=freight,
+                pay_method=pay_method,
+                status=status
             )
-            # 更新订单基本信息表商品总数和总金额
-            order.total_count += custom_count
-            order.total_amount += custom_count * sku.price
-        order.save()
+
+            # -----订单商品数据入库-----
+            redis_cli = get_redis_connection("carts")
+            # 获取选中商品的id
+            selected_id = redis_cli.smembers("selected_%s" % user.id)
+            # 获取hash数据
+            hash_data = redis_cli.hegetall("carts_%s" % user.id)
+            # 遍历获取商品详细数据
+            for id in selected_id:
+                sku = SKU.objects.get(id=id)
+                # 获取商品库存,判断商品库存是否满足续需求
+                mysql_stock = sku.stock
+                custom_count = hash_data[id]
+                # 若无法满足需求
+                if custom_count > mysql_stock:
+                    transaction.savepoint_rollback(start_point)
+                    return JsonResponse({'code': 400, 'errmsg': '下单失败,库存不足'})
+                # 若满足需求
+                # 更新商品表的销量和库存
+                sku.sales += custom_count
+                sku.stock -= custom_count
+                sku.save()
+
+                # 保存订单商品数据
+                OrderGoods.objects.create(
+                    order=order,
+                    sku=sku,
+                    count=custom_count,
+                    price=sku.price
+                )
+                # 更新订单基本信息表商品总数和总金额
+                order.total_count += custom_count
+                order.total_amount += custom_count * sku.price
+            order.save()
+            transaction.savepoint(start_point)
         return JsonResponse({'code':0,'errmsg':'ok','order_id':order_id})
