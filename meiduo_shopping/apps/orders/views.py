@@ -148,7 +148,7 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
         # 获取登录用户
         user = request.user
         # 生成订单编号：年月日时分秒+用户编号
-        order_id = timezone.localtime().strftime('%Y%m%d%H%M%S') + ('%09d' % user.id)
+        order_id = timezone.localtime().strftime('%Y%M%D%H%M%S') + ('%09d' % user.id)
         # %09d生成个9位数包含user.id,不满足9位,用0补齐 000000001
         # 支付状态
         if pay_method == OrderInfo.PAY_METHODS_ENUM["CASH"]:
@@ -200,7 +200,6 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
                 # 判断SKU库存
                 order_sku_count = carts[sku.id]
                 if order_sku_count > sku.stock:
-
                     transaction.savepoint_rollback(save_id)
                     return JsonResponse({'code': 400, 'errmsg': '库存不足'})
                 # 事物回滚点
@@ -238,6 +237,3 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
 
         # 响应提交订单结果
         return JsonResponse({'code': 0, 'errmsg': '下单成功', 'order_id': order.order_id})
-
-
-

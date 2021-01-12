@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="80a17905-5df2-47f9-9f22-fb62cd6ea7c8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app_private_key.pem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app_public_key.pem" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/orders/migrations/0001_initial.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/payment/__init__.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/payment/admin.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/payment/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/keys/alipay_public_key.pem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/keys/app_private_key.pem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/payment/keys/app_public_key.pem" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/payment/migrations/__init__.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/payment/models.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/payment/tests.py" afterDir="false" />
@@ -134,13 +139,14 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/apps/payment/keys" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/payment/keys" />
       <recent name="$PROJECT_DIR$/script" />
     </key>
   </component>
@@ -229,7 +235,7 @@
       <workItem from="1610276129173" duration="161000" />
       <workItem from="1610280447245" duration="1428000" />
       <workItem from="1610324795315" duration="23901000" />
-      <workItem from="1610412006190" duration="14511000" />
+      <workItem from="1610412006190" duration="17053000" />
     </task>
     <servers />
   </component>
