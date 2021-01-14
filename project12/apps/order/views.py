@@ -11,7 +11,7 @@ from apps.goods.models import SKU
 from apps.order.models import OrderInfo, OrderGoods
 from apps.users.models import Address
 from utils.views import LoginRequiredJSONMixin
-
+from datetime import datetime
 """
 需求:
 1.在支付页面显示用户地址信息(获取用户地址信息)
@@ -79,11 +79,11 @@ URL: POST  order/commit/
 响应结果: code/errmsg/order_id
 
 需求:
-    1.在提交订单时保存订单数据
+    1.在提交订单时保存订单数据到mysql
     (订单编号,下单用户,收货地址,商品总数,订单总金额,运费,支付方式,订单状态,订单生成时间,订单修改时间)
     (商品id,商品数量,商品价格,,score,is_anonymous,is_commented)
     2.订单数据包括订单基本信息和订单商品信息
-    
+
 流程: 
     1.接受参数
     2.提取参数
@@ -120,12 +120,10 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
         # -----获取登录用户-----
         user = request.user
         # -----获取参数,提取参数-----
-        json_dict = json.loads(request.body.decode())
-        address_id = json_dict.get('address_id')
-        pay_method = json_dict.get('pay_method')
+        data = json.loads(request.body.decode())
+        address_id = data.get('address_id')
+        pay_method = data.get('pay_method')
         # -----校验参数-----
-        if not all([address_id, pay_method]):
-            return HttpResponseBadRequest('缺少必传参数')
         try:
             address = Address.objects.get(id=address_id)
         except Address.DoesNotExist:
@@ -135,7 +133,7 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
 
         # -----订单基本数据入库-----
         # 生成订单号
-        order_id = timezone.localtime().strftime("%Y%M%D%H%M%S") + "%09d" % user.id
+        order_id = timezone.localtime().strftime("%Y%m%d%H%M%S") + "%09d" % user.id
         # 设定订单状态
         if pay_method == OrderInfo.PAY_METHODS_ENUM["CASH"]:
             status = OrderInfo.ORDER_STATUS_ENUM["UNSEND"]
@@ -152,7 +150,7 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
             # 事物开始点
             start_point = transaction.savepoint()
 
-            order = OrderInfo.objects.crea(
+            order = OrderInfo.objects.create(
                 order_id=order_id,
                 user=user,
                 address=address,
@@ -165,15 +163,15 @@ class OrderCommitView(LoginRequiredJSONMixin, View):
             # -----订单商品数据入库-----
             redis_cli = get_redis_connection("carts")
             # 获取选中商品的id
-            selected_id = redis_cli.smembers("selected_%s" % user.id)
+            selected_ids=redis_cli.smembers('selected_%s'%user.id)
             # 获取hash数据
-            hash_data = redis_cli.hegetall("carts_%s" % user.id)
+            hash_data = redis_cli.hgetall("carts_%s" % user.id)
             # 遍历获取商品详细数据
-            for id in selected_id:
+            for id in selected_ids:
                 sku = SKU.objects.get(id=id)
                 # 获取商品库存,判断商品库存是否满足续需求
                 mysql_stock = sku.stock
-                custom_count = hash_data[id]
+                custom_count = int(hash_data[id])
                 # 若无法满足需求
                 if custom_count > mysql_stock:
                     transaction.savepoint_rollback(start_point)

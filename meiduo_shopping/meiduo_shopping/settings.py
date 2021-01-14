@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     "django_crontab",
     "apps.carts",
     "apps.orders",
-    "apps.payment"
+    "apps.payment",
+    "haystack"
 ]
 
 MIDDLEWARE = [
@@ -252,10 +253,27 @@ DEFAULT_FILE_STORAGE = 'utils.storage.Qiniuyun'
 CRONJOBS = [
     # 每1分钟生成一次首页静态文件
     (
-    '*/1 * * * *', 'apps.contents.crons.generate_static_index_html', '>> ' + os.path.join(BASE_DIR, 'logs/crontab.log'))
+        '*/1 * * * *', 'apps.contents.crons.generate_static_index_html',
+        '>> ' + os.path.join(BASE_DIR, 'logs/crontab.log'))
 ]
 
 CRONTAB_COMMAND_PREFIX = 'LANG_ALL=zh_cn.UTF-8'
 # python manage.py crontab show 展示所有的定时任务
 # python manage.py crontab add  添加定时人物
 # python manage.py crontab remove 删除我们的任务
+##################################################
+ALIPAY_APPID = '2021000116699887'  # 沙箱APPID
+ALIPAY_DEBUG = True               # 是否是debug模式
+ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'  # 沙箱网关
+ALIPAY_RETURN_URL = 'http://www.meiduo.site:8080/pay_success.html' # 支付成功后返回地址
+APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/payment/keys/app_private_key.pem') # 美多私钥
+ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/payment/keys/alipay_public_key.pem') # 支付宝公钥
+
+##################搜索###################
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://192.168.230.157:9200//', # Elasticsearch服务器ip地址，端口号固定为9200
+        'INDEX_NAME': 'meiduo_shopping', # Elasticsearch建立的索引库的名称
+    },
+}

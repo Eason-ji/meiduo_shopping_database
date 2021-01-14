@@ -69,7 +69,7 @@ class Carts(LoginRequiredJSONMixin, View):
         # hash
         redis_cli.hset("carts_id_%s" % user.id, sku_id, count)
         # set
-        redis_cli.sadd("selected_%s" % user.id, sku_id)
+        redis_cli.sadd("selected_id_%s" % user.id, sku_id)
 
         return JsonResponse({"code": 0, "errmsg": "ok"})
 
@@ -96,7 +96,7 @@ class Carts(LoginRequiredJSONMixin, View):
         carts_hash = redis_cli.hgetall("carts_id_%s" % user.id)
         # {sku.id:count}
         # 获取set
-        carts_set = redis_cli.smembers("selected_%s" % user.id)
+        carts_set = redis_cli.smembers("selected_id_%s" % user.id)
         # keys
         ids = carts_hash.keys()
         carts_list = []
@@ -145,12 +145,12 @@ class Carts(LoginRequiredJSONMixin, View):
 
         redis_cli = get_redis_connection("carts")
 
-        redis_cli.hset("carts_%s" % user.id, sku_id, count)
+        redis_cli.hset("carts_id_%s" % user.id, sku_id, count)
 
         if selected:
-            redis_cli.sadd("selected_%s" % user.id, sku_id)
+            redis_cli.sadd("selected_id_%s" % user.id, sku_id)
         else:
-            redis_cli.srem("selected_%s" % user.id, sku_id)
+            redis_cli.srem("selected_id_%s" % user.id, sku_id)
 
         cart_sku = {
             "id": sku_id,
@@ -198,6 +198,6 @@ class Carts(LoginRequiredJSONMixin, View):
         # 删除hash
         redis_cli.hdel("carts_id_%s" % user.id, sku_id)
         # 删除set
-        redis_cli.srem("selected_%s" % user.id, sku_id)
+        redis_cli.srem("selected_id_%s" % user.id, sku_id)
 
         return JsonResponse({"code": 0, "errmsg": "ok"})

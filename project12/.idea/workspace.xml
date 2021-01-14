@@ -2,8 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b78914d6-84f9-45e6-89fb-653cab9723e6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/goods/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/goods/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/goods/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/goods/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/payment/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/apps/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/orders/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/apps/payment/keys/alipay_public_key.pem" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/payment/keys/alipay_public_key.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/apps/payment/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/payment/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/apps/payment/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/payment/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/apps/payment/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/apps/payment/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/meiduo_shopping/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/meiduo_shopping/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../meiduo_shopping/meiduo_shopping/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../meiduo_shopping/meiduo_shopping/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project10/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../project10/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/order/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/order/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/order/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/order/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +111,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/template" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../meiduo_shopping" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
@@ -155,6 +166,8 @@
       <workItem from="1610120309315" duration="7003000" />
       <workItem from="1610152247435" duration="15000" />
       <workItem from="1610283465559" duration="13688000" />
+      <workItem from="1610589709969" duration="1001000" />
+      <workItem from="1610630988688" duration="794000" />
     </task>
     <servers />
   </component>
